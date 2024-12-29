@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/jum.jpg">
+</head>
+
+</head>
+<body class="pred-body">
+    <!-- spinning container -->
+    <div id="spinnerOverlay" class="spinner-overlay">
+        <div class="spinner-border text-darkorange" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    
+<nav class="navbar navbar-expand-lg navbar-light nav-bg">
+    <div class="container">
+        <!-- Brand Logo -->
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+            <img src="/static/img/jum.jpg" alt="Logo" width="80">
+        </a>
+        <!-- Hamburger Menu Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link">Welcome, {{ current_user.name }}</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container chat-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %} 
+        {% endif %}
+    {% endwith %}
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-12">
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea 
+                        id="emailText" 
+                        class="form-control" 
+                        rows="4" 
+                        placeholder="Enter email content to check for spam..."
+                    ></textarea>
+                    <i class="fas fa-paper-plane send-icon" id="sendButton"></i>
+                </div>
+            </div>
+            <div id="resultContainer" class="mt-3"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Spam and non spam buttons -->
+<div class="text-center my-4">
+    <button class="btn btn-spam" data-bs-toggle="modal" data-bs-target="#spamModal">
+        View Spam Emails
+    </button>
+    <button class="btn btn-spam" data-bs-toggle="modal" data-bs-target="#nonSpamModal">
+        View Non-Spam Emails
+    </button>
+</div>
+
+<div class="modal fade" id="spamModal" tabindex="-1" aria-labelledby="spamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="spamModalLabel" style="font-size: 12px;">List of filtered Spam Mails</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-dark" onclick="downloadCSV('spam')">
+                        Download CSV
+                    </button>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 12px;">S/N</th>
+                            <th style="font-size: 12px;">Email</th>
+                            <th style="font-size: 12px;">Time Detected</th>
+                            <th style="font-size: 12px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spamTableBody" style="font-size: 12px;">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modified Non-Spam Modal -->
+<div class="modal fade" id="nonSpamModal" tabindex="-1" aria-labelledby="nonSpamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nonSpamModalLabel" style="font-size: 12px;">List of Non-Spam Mails</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-dark" onclick="downloadCSV('non-spam')">
+                        Download CSV
+                    </button>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 12px;">S/N</th>
+                            <th style="font-size: 12px;">Email</th>
+                            <th style="font-size: 12px;">Time Detected</th>
+                            <th style="font-size: 12px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nonSpamTableBody" style="font-size: 12px;">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Javascript functions for the controls ends here -->
+      <!-- Bootstrap JS -->
+    <script src="/static/js/prediction.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Spam Email Filtering System</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/jum.jpg">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="/static/font/flaticon.css">
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div id="preloader" class="preloader">
+        <div class='inner'>
+            <div class='line1'></div>
+            <div class='line2'></div>
+            <div class='line3'></div>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages" style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <section class="fxt-template-animation fxt-template-layout32">
+        <div class="fxt-content-wrap">
+            <a style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#logIn" class="fxt-logo">
+                <img src="/static/img/jum.jpg" alt="Logo" width="40">
+            </a>
+            <h1 class="fxt-main-title">Login and Register</h1>
+            <p class="fxt-main-description">Click the button below to Login or Get Registered!</p>
+            <div class="fxt-btns-wrap">
+                <ul>
+                    <li>
+                        <button type="button" class="fxt-modal-btn" data-bs-toggle="modal" data-bs-target="#logIn">Log In</button>
+                    </li>
+                    <li>
+                        <button type="button" class="fxt-modal-btn" data-bs-toggle="modal" data-bs-target="#signUp">Sign Up</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div class="modal fade" id="logIn" role="dialog" aria-hidden="true">
+            <div class="layout32 modal-dialog modal-dialog-centered" role="document">
+                <div class="layout32 modal-content">
+                    <button type="button" class="fxt-btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="fxt-page-title-wrap">
+                        <h2 class="fxt-page-title">Login</h2>
+                    </div>
+                    <div class="fxt-form">
+                        <form method="POST" action="{{ url_for('login') }}">
+                            <div class="form-group">
+                                <input type="email" id="email" class="form-control" name="email" 
+                                       placeholder="Enter Email" required="required">
+                            </div>
+                            <div class="form-group position-relative">
+                                <input id="password" type="password" class="form-control" name="password" 
+                                       placeholder="********" required="required">
+                                <i toggle="#password" class="fa fa-fw fa-eye toggle-password field-icon"></i>
+                            </div>
+                            <div class="form-group">
+                                <div class="fxt-transformY-50 fxt-transition-delay-4">
+                                    <button type="submit" class="fxt-btn-fill">Log in</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="fxt-switcher-description">
+                            Don't have an account?
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#signUp" 
+                               class="fxt-switcher-text2 ms-1">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign Up Modal -->
+        <div class="modal fade" id="signUp" role="dialog" aria-hidden="true">
+            <div class="layout32 modal-dialog modal-dialog-centered" role="document">
+                <div class="layout32 modal-content">
+                    <button type="button" class="fxt-btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="fxt-page-title-wrap">
+                        <h2 class="fxt-page-title">Sign Up</h2>
+                    </div>
+                    <div class="fxt-form">
+                        <form method="POST" action="{{ url_for('register') }}">
+                            <div class="form-group">
+                                <input type="text" id="sign_up_name" class="form-control" name="sign_up_name" 
+                                       placeholder="Enter Your Name" required="required">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="sign_up_email" class="form-control" name="sign_up_email" 
+                                       placeholder="Enter Your Email" required="required">
+                            </div>
+                            <div class="form-group position-relative">
+                                <input id="sign_up_password" type="password" class="form-control" 
+                                       name="sign_up_password" placeholder="********" required="required">
+                                <i toggle="#sign_up_password" class="fa fa-fw fa-eye toggle-password field-icon"></i>
+                            </div>
+                            <div class="form-group">
+                                <div class="fxt-transformY-50 fxt-transition-delay-4">
+                                    <button type="submit" class="fxt-btn-fill">Sign Up</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="fxt-switcher-description">
+                            Have an account?
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#logIn" 
+                               class="fxt-switcher-text2 ms-1">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jquery-->
+    <script src="/static/js/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- Imagesloaded js -->
+    <script src="/static/js/imagesloaded.pkgd.min.js"></script>
+    <!-- Custom Js -->
+    <script src="/static/js/main.js"></script>
+
+    <!-- Password Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle password visibility
+            const togglePassword = document.querySelectorAll('.toggle-password');
+            
+            togglePassword.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const input = document.querySelector(this.getAttribute('toggle'));
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.classList.remove('fa-eye');
+                        this.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                    }
+                });
+            });
+
+            // Auto-hide flash messages after 5 seconds
+            const flashMessages = document.querySelectorAll('.alert');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.classList.remove('show');
+                    setTimeout(function() {
+                        message.remove();
+                    }, 150);
+                }, 5000);
+            });
+        });
+    </script>
+
+    
+</body>
+</html>
