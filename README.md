@@ -1,7 +1,7 @@
-# Flask App Deployment on AWS EC2
+# Deployment of an AI Spam Detection App
 
 ## Overview
-This guide walks you through the steps to set up and deploy a Flask application on an AWS EC2 instance. The app will run on a production-ready server using Gunicorn.
+This will walks you through the steps to set up and deploy an AI spam detection application on an AWS EC2 instance. This app was written in Python (Flask). The app will run on a production-ready server using Gunicorn.
 
 ---
 
@@ -133,4 +133,4 @@ gunicorn --workers 3 --bind 0.0.0.0:5000 app:app
 Replace `app:app` with your actual module and app name if different.
 
 
-This concludes the setup for deploying your Flask application on AWS EC2!
+This concludes the setup for deploying your AI Spam detection application on AWS EC2!
