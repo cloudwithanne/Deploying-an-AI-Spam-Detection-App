@@ -80,7 +80,7 @@ ls
 nano requirements.txt
 ```
 
-4. If you can't access the requirements.txtEnsure the file uses Unix-style line endings. Convert if needed:
+4. If you can't access the requirements.txt file (if it looks encrypted), most likely the file was created on a Windows systems which uses a CRLF (\r\n) for line endings. However, running this on a Linux server will require the file to use a Unix-style line endings. In this case, we have to convert using the following commands:
 
 ```bash
 file requirements.txt
@@ -108,7 +108,7 @@ Verify the app is running by navigating to `http://<your-ec2-public-ip>:5000` in
 
 ---
 
-## Step 6: Open Port 5000 in the Security Group
+## Step 6: Open Port 5000 (this is the port the app is running on) in the Security Group, this will enable the app to run
 
 1. Go to the **EC2 Dashboard** in AWS.
 2. Select your instance and go to the **Security** tab.
@@ -116,7 +116,7 @@ Verify the app is running by navigating to `http://<your-ec2-public-ip>:5000` in
 
 ---
 
-## Step 7: Set Up Gunicorn for Production
+## Step 7: The app is currently running on the Flask's development server. To set up a production-ready server that can efficiently manage traffic to your app, you will need to run it on Gunicorn (optional if you're just testing)
 
 1. Install Gunicorn:
 
