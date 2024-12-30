@@ -134,4 +134,5 @@ Replace `app:app` with your actual module and app name if different.
 
 
 This concludes the setup for deploying your AI Spam detection application on AWS EC2!
-[Check out the screenshot of what the app looks like](./TheSpamDetectionApp(running))
+
+[Check out the screenshot of what the app looks like](./The-AI-Spam-Detection-App-(running))
