@@ -1,7 +1,7 @@
 # Deployment of an AI Spam Detection App
 
 ## Overview
-This will walks you through the steps to set up and deploy an AI spam detection application on an AWS EC2 instance. This app was written in Python (Flask). The app will run on a production-ready server using Gunicorn.
+This will walk you through the steps to set up and deploy an AI spam detection application on an AWS EC2 instance. This app was written in Python (Flask). The app will run on a production-ready server using Gunicorn.
 
 ---
 
@@ -25,7 +25,6 @@ This will walks you through the steps to set up and deploy an AI spam detection 
 7. Configure security groups:
    - Allow SSH (port 22)
    - Add a rule for HTTP (port 80)
-   - Add a rule for custom TCP (port 5000)
 8. Launch the instance and connect via SSH
 
 ---
@@ -60,7 +59,7 @@ pip --version
 
 ## Step 4: Set Up the Flask App
 
-1. Clone your Flask app repository:
+1. Clone your Flask app repository: [Here's my repo](./SpamEmail)
 
 ```bash
 git clone <repository-url>
